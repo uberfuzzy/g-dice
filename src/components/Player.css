@@ -1,0 +1,8 @@
+.playerDev {
+    border: 2px dashed blue;
+    width: fit-content;
+}
+
+.playerDicePool {
+    border: 2px outset gray;
+}

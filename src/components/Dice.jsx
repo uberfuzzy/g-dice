@@ -7,10 +7,9 @@ import "./Dice.css"
 export const Dice = ({ number }) => {
 
   return (
-    <>
-      Dice.props.number={number}<br />
+    <div className='diceBox'>
       <PipGrid value={number} />
-    </>
+    </div>
   );
 }
 

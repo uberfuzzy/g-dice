@@ -1,9 +1,9 @@
-.diceStyle {
-    border: 1px solid black;
-    border-radius: 4px;
+.diceBox {
     display: inline-block;
+    border: 2px solid rebeccapurple;
+    border-radius: 1em;
     width: fit-content;
-    padding: 1em;
-    margin: 4px;
-    box-shadow: rgba(0, 0, 0, 0.25) 2px 2px 2px;
+    padding: 2px;
+    box-shadow: 2px 2px 4px 0px gray;
+    margin: 2px 4px 4px 2px;
 }

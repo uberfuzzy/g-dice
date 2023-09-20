@@ -1,17 +1,14 @@
 .pipGrid {
     grid-template: repeat(3, 1fr) / repeat(3, 1fr);
     display: inline-grid;
-    border: 2px solid rebeccapurple;
-    border-radius: 1em;
     width: fit-content;
     padding: 2px;
-    box-shadow: 2px 2px 4px 0px gray;
-    margin: 2px 4px 4px 2px;
+    gap: 2px;
 }
 
 .pipGrid .cell {
     line-height: 1;
-    padding: 0.5em;
+    padding: 2px;
     display: inline-block;
     width: 1em;
     height: 1em;
