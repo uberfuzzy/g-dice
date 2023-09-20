@@ -1,0 +1,43 @@
+.pipGrid {
+    grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+    display: inline-grid;
+    border: 2px solid rebeccapurple;
+    border-radius: 1em;
+    width: fit-content;
+    padding: 2px;
+    box-shadow: 2px 2px 4px 0px gray;
+    margin: 2px 4px 4px 2px;
+}
+
+.pipGrid .cell {
+    line-height: 1;
+    padding: 0.5em;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    margin: 2px;
+    border-radius: 50%;
+    border-width: 2px;
+    border-style: solid;
+}
+
+.pipGrid .cell.pip {
+    display: inline-block;
+    background-color: black;
+    border-style: solid;
+    border-color: black;
+    color: transparent;
+    user-select: none;
+}
+
+.pipGrid .pip.hollow {
+    background-color: unset;
+    border-style: dashed;
+    color: currentColor;
+}
+
+.pipGrid .spacer {
+    visibility: hidden;
+    border-style: solid;
+    border-color: transparent;
+}

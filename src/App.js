@@ -1,23 +1,45 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import { Dice } from "./components/Dice"
+import PipGrid from './components/PipGrid';
+
+function rollD6() {
+  return Math.floor(Math.random() * 6) + 1;
+}
 
 function App() {
+  const [rnum, setRnum] = useState(rollD6)
+
+  const clicker = () => {
+    setRnum(rollD6)
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+      <fieldset>
+        <legend>PipGrid testing</legend>
+        {[0, 1, 2, 3, 4, 5, 6, 7].map((p) => {
+          return <PipGrid key={`test${p}`} value={p} />
+        })}
+      </fieldset>
+      <hr />
+
+      <fieldset>
+        <legend>Dice testing</legend>
+
+        fixed=6<br />
+        <Dice number={6} /><br />
+        <hr />
+
+        rnum={rnum}<br />
+        <Dice number={rnum} /><br />
+
+        <button onClick={() => {
+          console.log("button onclick, rnum was", rnum)
+          clicker()
+        }}>roll rnum</button>
+      </fieldset>
     </div>
   );
 }
