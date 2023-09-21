@@ -6,3 +6,9 @@
 .playerDicePool {
     border: 2px outset gray;
 }
+
+.nameBox {
+    border: 2px inset;
+    padding: 2px;
+    background-color: rgba(0, 0, 0, 0.1);
+}

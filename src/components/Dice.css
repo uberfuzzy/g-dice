@@ -7,3 +7,15 @@
     box-shadow: 2px 2px 4px 0px gray;
     margin: 2px 4px 4px 2px;
 }
+
+.diceBox.one {
+    background-color: red;
+}
+
+.diceBox.three {
+    background-color: lime;
+}
+
+.diceBox.six {
+    background-color: aqua;
+}

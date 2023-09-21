@@ -6,8 +6,21 @@ import "./Dice.css"
 
 export const Dice = ({ number }) => {
 
+  const bgClass = (() => {
+    switch (number) {
+      case 1:
+        return "one";
+      case 3:
+        return "three";
+      case 6:
+        return "six";
+      default:
+        return null;
+    }
+  })();
+
   return (
-    <div className='diceBox'>
+    <div className={`diceBox ${bgClass}`}>
       <PipGrid value={number} />
     </div>
   );

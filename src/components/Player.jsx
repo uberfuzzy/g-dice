@@ -1,61 +1,57 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import "./Player.css"
 import { rollD6 } from '../util/dice';
 import { Dice } from "./Dice"
+import { GameContext } from '../contexts/gameState';
 
 export const Player = ({ name }) => {
-    const [pool, setPool] = useState([])
+  const [pool, setPool] = useState([])
+  let gameIsStart = useContext(GameContext);
 
-    useEffect(() => {
-        setPool(new Array(7).fill(0))
-    }, [])
+  useEffect(() => {
+    setPool(new Array(7).fill(0));
+  }, [])
 
-    const rollPool = () => {
-        const np = pool.map((pv, pi) => {
-            return rollD6();
-        })
+  const rollPool = () => {
+    let np = pool.map(() => {
+      return rollD6();
+    })
 
-        setPool(np);
-    }
+    np = np.sort((a, b) => a - b)
 
-    const sortPool = () => {
-        let np = [...pool]
-        np = np.sort((a, b) => a - b)
-        setPool(np)
-    }
+    setPool(np);
+  }
 
-    return (
-        <>
-            <div className={"playerDev"}>
-                my name is {name}, my pool({pool.length}) is [{pool.join(', ')}],
+  return (
+    <>
+      <div className={"playerDev"}>
+        my name is <code className="nameBox">{name}</code>, my pool({pool.length}) is [{pool.join(', ')}],
 
-                <div className="playerDicePool">
-                    {pool.map((dv, i) => {
-                        return <Dice key={i} number={dv} />
-                    })}
-                </div>
+        <div className="playerDicePool">
+          {pool.map((dv, i) => {
+            return <Dice key={i} number={dv} />
+          })}
+        </div>
 
-                <button onClick={() => {
-                    let nu = rollD6();
-                    setPool([...pool, nu]);
-                }}>add</button>
-
-                &nbsp;<button onClick={rollPool}>roll pool</button>
-                &nbsp;<button onClick={sortPool}>sort pool</button>
-            </div>
-        </>
-    );
+        {gameIsStart &&
+          <>
+            <button onClick={rollPool}>roll pool</button>
+          </>
+        }
+      </div>
+    </>
+  );
 }
 
 
 Player.propTypes = {
-    name: PropTypes.string,
+  name: PropTypes.string,
 };
 
 Player.defaultProps = {
-    name: "-",
+  name: "-",
 }
 
 export default Player;
