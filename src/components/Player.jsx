@@ -1,33 +1,25 @@
 import React from 'react';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import "./Player.css"
-import { rollD6 } from '../util/dice';
 import { Dice } from "./Dice"
-import { GameContext } from '../contexts/gameState';
+// import { GameContext } from '../contexts/gameState';
+import { NameBox } from './NameBox';
 
-export const Player = ({ name }) => {
-  const [pool, setPool] = useState([])
-  let gameIsStart = useContext(GameContext);
+export const Player = ({ data }) => {
+  const [pool, setPool] = useState(data.pool)
+
+  // let gameIsStart = useContext(GameContext);
 
   useEffect(() => {
-    setPool(new Array(7).fill(0));
-  }, [])
-
-  const rollPool = () => {
-    let np = pool.map(() => {
-      return rollD6();
-    })
-
-    np = np.sort((a, b) => a - b)
-
-    setPool(np);
-  }
+    setPool(data.pool);
+  }, [data.pool])
 
   return (
     <>
       <div className={"playerDev"}>
-        my name is <code className="nameBox">{name}</code>, my pool({pool.length}) is [{pool.join(', ')}],
+        my name is <NameBox>{data.name}</NameBox>, my pool({pool.length}) is [{pool.join(', ')}],
+        {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
 
         <div className="playerDicePool">
           {pool.map((dv, i) => {
@@ -35,11 +27,6 @@ export const Player = ({ name }) => {
           })}
         </div>
 
-        {gameIsStart &&
-          <>
-            <button onClick={rollPool}>roll pool</button>
-          </>
-        }
       </div>
     </>
   );

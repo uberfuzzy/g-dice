@@ -9,13 +9,19 @@
 }
 
 .diceBox.one {
-    background-color: red;
+    background-color: var(--colorLeft);
 }
 
 .diceBox.three {
-    background-color: lime;
+    background-color: var(--colorCube);
 }
 
 .diceBox.six {
-    background-color: aqua;
+    background-color: var(--colorRight);
+}
+
+:root {
+    --colorLeft: red;
+    --colorCube: lime;
+    --colorRight: aqua;
 }

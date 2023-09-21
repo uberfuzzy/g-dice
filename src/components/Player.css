@@ -1,14 +1,9 @@
 .playerDev {
     border: 2px dashed blue;
     width: fit-content;
+    padding: 1em;
 }
 
 .playerDicePool {
     border: 2px outset gray;
-}
-
-.nameBox {
-    border: 2px inset;
-    padding: 2px;
-    background-color: rgba(0, 0, 0, 0.1);
 }
