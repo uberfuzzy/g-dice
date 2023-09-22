@@ -38,7 +38,8 @@ function Game() {
       left: null,
       right: null,
       cube: 0,
-      pool: new Array(7).fill(0)
+      pool: new Array(7).fill(0),
+      gifts: 0,
     }
     newPlayer.id = players.length;
 
@@ -81,6 +82,11 @@ function Game() {
 
   const rollAllPools = () => {
     const npd = players.map((p, pi) => {
+      if (p.gifts > 0) {
+        p.pool = [...p.pool, ...new Array(p.gifts).fill(0)]
+        p.gifts = 0;
+      }
+
       const rolled = rollPool(p.pool);
       p.pool = [...rolled];
       return p;
@@ -104,7 +110,19 @@ function Game() {
   }
 
   const giftYourNeighbors = () => {
+    const npd = players.map((p, pi) => {
+      const onesCount = p.pool.filter((dv) => { return dv === 1 }).length
+      players[p.left].gifts += onesCount
+      p.pool = p.pool.filter((dv) => { return dv !== 1 })
 
+      const sixesCount = p.pool.filter((dv) => { return dv === 6 }).length
+      players[p.right].gifts += sixesCount
+      p.pool = p.pool.filter((dv) => { return dv !== 6 })
+
+      return p;
+    })
+
+    setPlayers(npd)
   }
 
   return (

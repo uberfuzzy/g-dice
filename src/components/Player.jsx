@@ -24,7 +24,7 @@ export const Player = ({ data }) => {
 
         <div style={{ display: "flex" }}>
 
-          <div className="playerCube" style={{ backgroundColor: "magenta" }}>
+          <div className="playerCube" style={{ backgroundColor: "pink" }}>
             <Cube number={data.cube} />
           </div>
 
@@ -33,6 +33,11 @@ export const Player = ({ data }) => {
               return <Dice key={i} number={dv} />
             })}
           </div>
+
+          <div className="giftCube" style={{ backgroundColor: "gold" }}>
+            <Cube number={data.gifts} />
+          </div>
+
         </div>
 
       </div>
