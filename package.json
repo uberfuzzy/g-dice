@@ -12,10 +12,11 @@
     "unique-names-generator": "^4.7.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "craco eject",
+    "format": "prettier --write 'src/**/*.{js,jsx}'"
   },
   "eslintConfig": {
     "extends": [
@@ -36,6 +37,7 @@
     ]
   },
   "devDependencies": {
+    "@craco/craco": "^7.1.0",
     "prettier": "^3.0.3"
   }
 }

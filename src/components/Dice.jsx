@@ -1,11 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import { PipGrid } from "./PipGrid"
-import "./Dice.css"
+import { PipGrid } from "~components/PipGrid";
+import "./Dice.css";
 
 export const Dice = ({ number }) => {
-
   const bgClass = (() => {
     switch (number) {
       case 1:
@@ -24,7 +23,7 @@ export const Dice = ({ number }) => {
       <PipGrid value={number} />
     </div>
   );
-}
+};
 
 Dice.propTypes = {
   number: PropTypes.number,
@@ -32,6 +31,6 @@ Dice.propTypes = {
 
 Dice.defaultProps = {
   number: 0,
-}
+};
 
 export default Dice;
