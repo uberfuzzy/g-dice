@@ -9,7 +9,7 @@ import { Player } from "./Player"
 // import { rollD6 } from "../util/dice"
 import { titleCase } from "../util/strings"
 import { GameContext } from "../contexts/gameState"
-import { NameBox } from "./NameBox"
+// import { NameBox } from "./NameBox"
 import { rollD6 } from '../util/dice';
 
 import {
