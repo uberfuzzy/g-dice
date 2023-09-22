@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import "./Player.css"
 import { Dice } from "./Dice"
-// import { GameContext } from '../contexts/gameState';
+import { Cube } from "./Cube"
+
 import { NameBox } from './NameBox';
 
 export const Player = ({ data }) => {
@@ -21,10 +22,17 @@ export const Player = ({ data }) => {
         my name is <NameBox>{data.name}</NameBox>, my pool({pool.length}) is [{pool.join(', ')}],
         {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
 
-        <div className="playerDicePool">
-          {pool.map((dv, i) => {
-            return <Dice key={i} number={dv} />
-          })}
+        <div style={{ display: "flex" }}>
+
+          <div className="playerCube" style={{ backgroundColor: "magenta" }}>
+            <Cube number={data.cube} />
+          </div>
+
+          <div className="playerDicePool">
+            {pool.map((dv, i) => {
+              return <Dice key={i} number={dv} />
+            })}
+          </div>
         </div>
 
       </div>
@@ -34,11 +42,10 @@ export const Player = ({ data }) => {
 
 
 Player.propTypes = {
-  name: PropTypes.string,
+  data: PropTypes.object
 };
 
-Player.defaultProps = {
-  name: "-",
-}
+// Player.defaultProps = {
+// }
 
 export default Player;
