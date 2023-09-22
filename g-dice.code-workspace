@@ -1,8 +1,10 @@
 {
-	"folders": [
-		{
-			"path": "."
-		}
-	],
-	"settings": {}
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "editor.fontFamily": "Consolas, 'Courier New', monospace, 'Noto Color Emoji'"
+  }
 }

@@ -9,6 +9,9 @@ import {
 
 import { Player } from "~components/Player";
 import { GameContext } from "~contexts/gameState";
+import { NameBox } from "~components/NameBox";
+import { Emoji } from "~components/Emoji";
+
 import { rollD6 } from "~util/dice";
 import { titleCase } from "~util/strings";
 
@@ -28,6 +31,8 @@ export const GameStates = {
 
 function Game() {
   const [gameState, setGameState] = useState(GameStates.start);
+  const [winState, setWinState] = useState(false);
+
   const [players, setPlayers] = useState([]);
   const [gameTurnCount, setTurn] = useState(0);
 
@@ -183,15 +188,30 @@ function Game() {
       });
       console.log("gameIsWon(), smallest found=", smallest);
 
-      winners.forEach((winnerId, i) => {
-        players[winnerId].win =
-          players[winnerId].win === smallest ? smallest : false;
+      winners = winners.filter((winnerId) => {
+        return players[winnerId].win === smallest;
       });
 
       setPlayers(players);
     }
+    setWinState(winners);
 
     return winners.length > 0;
+  };
+
+  const gameIsOver = () => {
+    let playersWithDice = 0;
+
+    players.forEach((p) => {
+      if (p.pool.length + p.gifts) {
+        playersWithDice += 1;
+      }
+    });
+
+    if (playersWithDice === 0) {
+      // game is deadlock, everyone looses
+      return true;
+    }
   };
 
   const doATurn = () => {
@@ -205,14 +225,11 @@ function Game() {
       return;
     }
 
-    // TODO check for 'over but all lose' state
-    /*
     if (gameIsOver()) {
       setGameState(GameStates.over);
+      setWinState(false);
       return;
     }
-
-    */
   };
 
   // keep players names, wipe their internals, reset game state
@@ -223,6 +240,7 @@ function Game() {
     setPlayers(npd);
 
     setTurn(0);
+    setWinState(false);
     setGameState(GameStates.playing);
   };
 
@@ -231,6 +249,7 @@ function Game() {
     if (!window.confirm("reset world?")) return;
     setPlayers([]);
     setTurn(0);
+    setWinState(false);
     setGameState(GameStates.start);
   };
 
@@ -264,7 +283,12 @@ function Game() {
 
           {gameState === GameStates.playing && (
             <div className="turnControls">
-              <button onClick={doATurn}>DO A TURN</button>
+              <button
+                onClick={doATurn}
+                title="everyone rolls, feed your cube, give gifts, check for winners"
+              >
+                DO A TURN
+              </button>
               {/* <br /><button onClick={rollAllPools}>everyone roll</button>
             &nbsp;<button onClick={feedYourCube}>feed your cube</button>
           &nbsp;<button onClick={giftYourNeighbors}>give gifts</button> */}
@@ -292,6 +316,48 @@ function Game() {
             </div>
           )}
         </div>
+
+        {gameState === GameStates.over && (
+          <>
+            {winState === false && (
+              <>
+                <div
+                  className="gameOverBox"
+                  style={{
+                    backgroundColor: "pink",
+                    borderColor: "red",
+                  }}
+                >
+                  <Emoji>☠</Emoji> NO WINNERS, CUBES REVOLT, EVERYONE EATEN{" "}
+                  <Emoji>☠</Emoji>
+                </div>
+              </>
+            )}
+            {winState !== false && (
+              <>
+                <div
+                  className="gameOverBox"
+                  style={{
+                    backgroundColor: "lime",
+                    borderColor: "green",
+                  }}
+                >
+                  🏆 WINNER{winState?.length > 1 && <>S</>} DETECTED,{" "}
+                  {winState.map((playerId, loopId, arr) => {
+                    console.log(playerId, loopId, arr);
+                    return (
+                      <>
+                        {loopId > 0 && <>, </>}
+                        <NameBox>{players[playerId].name}</NameBox>
+                      </>
+                    );
+                  })}{" "}
+                  🏆
+                </div>
+              </>
+            )}
+          </>
+        )}
 
         <table className="gameTable" border={0}>
           <caption style={{ whiteSpace: "nowrap" }}>
