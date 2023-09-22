@@ -6,3 +6,7 @@
 .cubeGrid .pip {
     border-radius: 0 !important;
 }
+
+.cubeGrid .none {
+    border-color: transparent;
+}

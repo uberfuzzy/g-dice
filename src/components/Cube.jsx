@@ -2,6 +2,7 @@ import React from "react";
 // import PropTypes from 'prop-types';
 import "./PipGrid.css";
 import "./Cube.css";
+import { Emoji } from "./Emoji";
 
 const patterns = {};
 
@@ -35,15 +36,15 @@ export const CubeStack = ({ number, color }) => {
     // non-spacers are overwrote into pips
     if (element !== "-") {
       myPips[i] = (
-        <span key={i} className="cell pip">
-          &bull;
+        <span key={i} className="cell none">
+          <Emoji>🎲</Emoji>
         </span>
       );
     }
   });
 
   myPips[4] = (
-    <span key={4} className="cell pip hollow">
+    <span key={4} className="cell none">
       {number}
     </span>
   );
