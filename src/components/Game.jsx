@@ -26,10 +26,13 @@ const ungConfigPlayer = {
 
 function Game() {
   const [gameStart, setGameStart] = useState(false)
+  const [gameOver, setGameOver] = useState(false)
   const [players, setPlayers] = useState([])
+  const minPlayers = 3
+  const maxPlayers = 5
 
   const createNewPlayer = () => {
-    if (players?.length >= 7) return;
+    if (players?.length >= maxPlayers) return;
     const randomName = titleCase(uniqueNamesGenerator(ungConfigPlayer));
 
     const newPlayer = {
@@ -125,24 +128,63 @@ function Game() {
     setPlayers(npd)
   }
 
+  const gameIsWon = () => {
+    let winners = []
+    players.forEach((p, pi) => {
+      if (p.cube >= 8) {
+        winners.push(pi)
+      }
+    })
+
+    if (winners.length > 1) {
+      console.log("gameIsWon()", winners)
+      //if multiple win at same time, "the player with the fewer unstacked dice wins"
+
+    }
+
+    return winners.length > 0
+  }
+
+  const doATurn = () => {
+    rollAllPools()
+    feedYourCube()
+    giftYourNeighbors()
+
+    if (gameIsWon()) {
+      //change game state machine to "done"
+      setGameOver(true)
+      return
+    }
+  }
+
   return (
     <GameContext.Provider value={gameStart}>
       <>
-        <div className='introBox' style={{ marginBottom: "1em", display: gameStart ? 'none' : 'block' }}>
+        <div className='gameControls' style={{ marginBottom: "1em", display: gameOver ? 'none' : 'block' }}>
+          <div className='introBox' style={{ marginBottom: "1em", display: gameStart ? 'none' : 'block' }}>
 
-          <button id='bNewPlayer' onClick={createNewPlayer} disabled={gameStart || players.length >=
-            7}>Add Player</button>&nbsp;
-          <button id='bStartGame' onClick={startTheGame} disabled={gameStart || players.length < 3}>StartGame</button>
-        </div>
+            <button
+              id='bStartGame'
+              onClick={startTheGame}
+              disabled={gameStart || players.length < minPlayers}
+            >StartGame</button>
+            &bull;<button
+              id='bNewPlayer'
+              onClick={createNewPlayer}
+              disabled={gameStart || players.length >= maxPlayers}
+            >Add Player</button>
+          </div>
 
-        <div className='gameControls' style={{ marginBottom: "1em", display: gameStart ? 'block' : 'none' }}>
-          <button onClick={rollAllPools}>everyone roll</button>&nbsp;
-          <button onClick={feedYourCube}>feed your cube</button>&nbsp;
-          <button onClick={giftYourNeighbors}>give gifts</button>
+          <div className='turnControls' style={{ marginBottom: "1em", display: gameStart ? 'block' : 'none' }}>
+            <button onClick={doATurn}>DO A TURN</button>
+            <br /><button onClick={rollAllPools}>everyone roll</button>
+            &nbsp;<button onClick={feedYourCube}>feed your cube</button>
+            &nbsp;<button onClick={giftYourNeighbors}>give gifts</button>
+          </div>
         </div>
 
         <table className='gameTable' border={0}>
-          <caption style={{ whiteSpace: "nowrap" }}>{players.length || "Add 3 to 7 players to play"} Players</caption>
+          <caption style={{ whiteSpace: "nowrap" }}>{players.length || `Add ${minPlayers} to ${maxPlayers} players to play`} Players</caption>
           <tbody>
             {players.map((playerData, pi) => {
               return (

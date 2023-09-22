@@ -1,0 +1,8 @@
+.win {
+    background-color: lime;
+    color: black;
+}
+
+.cubeGrid .pip {
+    border-radius: 0 !important;
+}

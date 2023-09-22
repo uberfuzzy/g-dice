@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import "./Player.css"
 import { Dice } from "./Dice"
-import { Cube } from "./Cube"
+import { CubeStack } from "./Cube"
 
 import { NameBox } from './NameBox';
 
@@ -25,7 +25,7 @@ export const Player = ({ data }) => {
         <div style={{ display: "flex" }}>
 
           <div className="playerCube" style={{ backgroundColor: "pink" }}>
-            <Cube number={data.cube} />
+            <CubeStack number={data.cube} />
           </div>
 
           <div className="playerDicePool">
@@ -35,7 +35,7 @@ export const Player = ({ data }) => {
           </div>
 
           <div className="giftCube" style={{ backgroundColor: "gold" }}>
-            <Cube number={data.gifts} />
+            <CubeStack number={data.gifts} />
           </div>
 
         </div>
