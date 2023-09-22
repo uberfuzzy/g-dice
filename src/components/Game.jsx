@@ -271,8 +271,15 @@ function Game() {
             </div>
           )}
           {gameState === GameStates.over && (
-            <>
-              <button onClick={resetTable} title="keep but reset players">
+            <div
+              className="overControls"
+              style={{ display: "flex", justifyContent: "space-around" }}
+            >
+              <button
+                onClick={resetTable}
+                style={{ float: "left" }}
+                title="keep but reset players"
+              >
                 play another round?
               </button>
               <button
@@ -282,14 +289,16 @@ function Game() {
               >
                 reset game?
               </button>
-            </>
+            </div>
           )}
         </div>
 
         <table className="gameTable" border={0}>
           <caption style={{ whiteSpace: "nowrap" }}>
             {players.length} Players
-            {gameState === GameStates.playing && <>, Turn {gameTurnCount}</>}
+            {[GameStates.playing, GameStates.over].includes(gameState) && (
+              <>, Turn {gameTurnCount}</>
+            )}
           </caption>
           <tbody>
             {players.map((playerData, pi) => {

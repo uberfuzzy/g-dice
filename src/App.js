@@ -1,5 +1,7 @@
 import "./App.css";
-import Game from "./components/Game";
+import "./global.css"
+
+import Game from "~components/Game";
 
 function App() {
   return (
