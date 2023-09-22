@@ -4,6 +4,14 @@
     padding: 1em;
 }
 
+.playerDiceRow {
+    display: flex;
+    column-gap: 1em;
+}
+
 .playerDicePool {
     border: 2px outset gray;
+    min-width: 1em;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
 }

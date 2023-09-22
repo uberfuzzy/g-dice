@@ -26,7 +26,7 @@ export const Player = ({ data }) => {
         my cube is: {data.cube}, my pool({pool.length}) is [{pool.join(", ")}],
         my gifts is: {data.gifts}. [US={unstacked}]
         {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
-        <div style={{ display: "flex" }}>
+        <div className="playerDiceRow">
           <div className="playerCube">
             <CubeStack number={data.cube} color="pink" />
           </div>

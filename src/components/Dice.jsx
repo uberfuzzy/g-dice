@@ -14,7 +14,7 @@ export const Dice = ({ number }) => {
       case 6:
         return "six";
       default:
-        return null;
+        return "";
     }
   })();
 

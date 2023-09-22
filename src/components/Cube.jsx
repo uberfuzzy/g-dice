@@ -50,7 +50,7 @@ export const CubeStack = ({ number, color }) => {
 
   return (
     <div
-      className={`diceBox ${number >= 8 ? "win" : null}`}
+      className={`diceBox ${number >= 8 ? "win" : ""}`}
       style={{ backgroundColor: color || "transparent" }}
     >
       <div className={`pipGrid cubeGrid`} title={number}>
