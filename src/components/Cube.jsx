@@ -17,7 +17,7 @@ patterns[6] = "***--*-**"
 patterns[7] = "***--****"
 patterns[8] = "****-****"
 
-export const CubeStack = ({ number }) => {
+export const CubeStack = ({ number, color }) => {
   let myPips = new Array(9)
 
   // start with a grid of spacers
@@ -38,7 +38,11 @@ export const CubeStack = ({ number }) => {
   myPips[4] = <span key={4} className="cell pip hollow">{number}</span>
 
   return (
-    <div className={`pipGrid cubeGrid ${number >= 8 ? "win" : null}`} title={number}>{myPips}</div>
+    <div className={`diceBox ${number >= 8 ? "win" : null}`} style={{ backgroundColor: color || 'transparent' }}>
+      <div className={`pipGrid cubeGrid`} title={number}>
+        {myPips}
+      </div>
+    </div>
   );
 }
 

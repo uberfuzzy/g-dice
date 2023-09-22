@@ -16,16 +16,19 @@ export const Player = ({ data }) => {
     setPool(data.pool);
   }, [data.pool])
 
+  const unstacked = data.pool.length + data.gifts
+
   return (
     <>
       <div className={"playerDev"}>
-        my name is <NameBox>{data.name}</NameBox>, my pool({pool.length}) is [{pool.join(', ')}],
+        my name is <NameBox>{data.name}</NameBox>,<br />
+        my cube is: {data.cube}, my pool({pool.length}) is [{pool.join(', ')}], my gifts is: {data.gifts}. [US={unstacked}]
         {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
 
         <div style={{ display: "flex" }}>
 
-          <div className="playerCube" style={{ backgroundColor: "pink" }}>
-            <CubeStack number={data.cube} />
+          <div className="playerCube">
+            <CubeStack number={data.cube} color="pink" />
           </div>
 
           <div className="playerDicePool">
@@ -34,11 +37,14 @@ export const Player = ({ data }) => {
             })}
           </div>
 
-          <div className="giftCube" style={{ backgroundColor: "gold" }}>
-            <CubeStack number={data.gifts} />
+          <div className="giftCube">
+            <CubeStack number={data.gifts} color="gold" />
           </div>
 
         </div>
+        {(data.win !== false) && <>
+          <div className='win'>I AM WINNER [{data.win}]</div>
+        </>}
 
       </div>
     </>

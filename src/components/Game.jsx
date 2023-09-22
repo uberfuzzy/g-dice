@@ -43,6 +43,7 @@ function Game() {
       cube: 0,
       pool: new Array(7).fill(0),
       gifts: 0,
+      win: false,
     }
     newPlayer.id = players.length;
 
@@ -133,13 +134,25 @@ function Game() {
     players.forEach((p, pi) => {
       if (p.cube >= 8) {
         winners.push(pi)
+        p.win = p.pool.length + p.gifts;
       }
     })
 
     if (winners.length > 1) {
       console.log("gameIsWon()", winners)
       //if multiple win at same time, "the player with the fewer unstacked dice wins"
+      let smallest = 0;
+      winners.forEach((winnerId, i) => {
+        const p = players[winnerId]
+        const unstacked = p.pool.length + p.gifts;
+        smallest = Math.min(smallest, unstacked)
+        // console.log("winnerId=%o, i=%o, unstacked=%o, smallest=%o", winnerId, i, unstacked, smallest)
+      })
+      winners.forEach((winnerId, i) => {
+        players[winnerId].win = players[winnerId].win === smallest ? smallest : false
+      })
 
+      setPlayers(players)
     }
 
     return winners.length > 0
@@ -164,24 +177,33 @@ function Game() {
           <div className='introBox' style={{ marginBottom: "1em", display: gameStart ? 'none' : 'block' }}>
 
             <button
-              id='bStartGame'
-              onClick={startTheGame}
-              disabled={gameStart || players.length < minPlayers}
-            >StartGame</button>
-            &bull;<button
               id='bNewPlayer'
               onClick={createNewPlayer}
               disabled={gameStart || players.length >= maxPlayers}
             >Add Player</button>
+            &nbsp;&bull;&nbsp;
+            <button
+              id='bStartGame'
+              onClick={startTheGame}
+              disabled={gameStart || players.length < minPlayers}
+            >StartGame</button>
           </div>
 
           <div className='turnControls' style={{ marginBottom: "1em", display: gameStart ? 'block' : 'none' }}>
             <button onClick={doATurn}>DO A TURN</button>
-            <br /><button onClick={rollAllPools}>everyone roll</button>
+            {/* <br /><button onClick={rollAllPools}>everyone roll</button>
             &nbsp;<button onClick={feedYourCube}>feed your cube</button>
-            &nbsp;<button onClick={giftYourNeighbors}>give gifts</button>
+            &nbsp;<button onClick={giftYourNeighbors}>give gifts</button> */}
           </div>
         </div>
+        {gameOver && <>
+          <button style={{ float: "right" }} onClick={() => {
+            setPlayers([])
+            setGameStart(false)
+            setGameOver(false)
+          }}>reset?</button>
+        </>}
+
 
         <table className='gameTable' border={0}>
           <caption style={{ whiteSpace: "nowrap" }}>{players.length || `Add ${minPlayers} to ${maxPlayers} players to play`} Players</caption>
@@ -190,14 +212,14 @@ function Game() {
               return (
                 <tr key={pi}><td style={{ marginTop: "1em" }}>
 
-                  i am ({pi}/{playerData.id})
+                  {/* i am #{playerData.id}
                   {playerData?.left !== null && <>
                     , my left neighbor is: ({playerData.left})<NameBox dir={'left'}>{players[playerData.left].name}</NameBox>
                   </>}
                   {playerData?.right !== null && <>
                     , my right neighbor is: ({playerData.right})<NameBox dir={'right'}>{players[playerData.right].name}</NameBox>
                   </>}
-                  <br />
+                  <br /> */}
                   <Player data={playerData} />
                 </td></tr>
               )
