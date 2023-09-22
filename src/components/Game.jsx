@@ -89,6 +89,24 @@ function Game() {
     setPlayers(npd)
   }
 
+  const feedYourCube = () => {
+    const npd = players.map((p, pi) => {
+      const threeCount = p.pool.filter((dv) => { return dv === 3 }).length
+      if (threeCount > 0) {
+        p.cube += threeCount;
+        const poolWithoutThrees = p.pool.filter((dv) => { return dv !== 3 })
+        p.pool = [...poolWithoutThrees]
+      }
+      return p
+    })
+
+    setPlayers(npd)
+  }
+
+  const giftYourNeighbors = () => {
+
+  }
+
   return (
     <GameContext.Provider value={gameStart}>
       <>
@@ -101,8 +119,8 @@ function Game() {
 
         <div className='gameControls' style={{ marginBottom: "1em", display: gameStart ? 'block' : 'none' }}>
           <button onClick={rollAllPools}>everyone roll</button>&nbsp;
-          <button><s>feed your cube</s></button>&nbsp;
-          <button><s>give gifts</s></button>
+          <button onClick={feedYourCube}>feed your cube</button>&nbsp;
+          <button onClick={giftYourNeighbors}>give gifts</button>
         </div>
 
         <table className='gameTable' border={0}>
