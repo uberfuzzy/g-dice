@@ -1,12 +1,53 @@
-.win {
-    background-color: lime !important;
+.cubeGrid {
+    border: 2px solid rebeccapurple;
+    border-radius: 1em;
+    width: fit-content;
+    padding: 2px;
+    box-shadow: 2px 2px 4px 0px gray;
+    margin: 2px 4px 4px 2px;
+
+    background-color: whitesmoke;
     color: black;
+
+    grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+    display: inline-grid;
+    width: fit-content;
+    --spacing: 4px;
+    padding: var(--spacing);
+    gap: var(--spacing);
 }
 
-.cubeGrid .pip {
-    border-radius: 0 !important;
+.cubeGrid.win {
+    background-color: lime !important;
 }
 
-.cubeGrid .none {
-    border-color: transparent;
+.cubeGrid.almost {
+    background-color: yellow !important;
+}
+
+
+.cubeGrid .cell {
+    line-height: 1;
+    padding: 2px;
+    display: inline-block;
+    --wh: 1em;
+    width: var(--wh);
+    height: var(--wh);
+    margin: 1px;
+    text-align: center;
+    user-select: none;
+}
+
+.cubeGrid .cell.pip {}
+
+.cubeGrid .pip.hollow {
+    background-color: unset;
+    border-style: dashed;
+    color: currentColor;
+}
+
+.cubeGrid .spacer {
+    /* visibility: hidden;
+     */
+    filter: opacity(25%)
 }

@@ -1,7 +1,13 @@
 .playerDev {
-    border: 2px dashed blue;
+    border: 1px dashed lightslategray;
+    box-shadow: 2px 2px 4px gray;
     width: fit-content;
     padding: 1em;
+    margin: 0.5em;
+}
+
+.playerCube {
+    width: min-content;
 }
 
 .playerDiceRow {
@@ -12,6 +18,15 @@
 .playerDicePool {
     border: 2px outset gray;
     min-width: 1em;
+    min-height: 1em;
+}
+
+.dicePoolGrid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
+}
+
+.noDiceBox {
+    opacity: 50%;
+    padding-inline: 1em;
 }

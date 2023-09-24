@@ -10,9 +10,10 @@
     line-height: 1;
     padding: 2px;
     display: inline-block;
-    width: 1em;
-    height: 1em;
-    margin: 2px;
+    --wh: 0.5em;
+    width: var(--wh);
+    height: var(--wh);
+    margin: 1px;
     border-radius: 50%;
     border-width: 2px;
     border-style: solid;
@@ -29,7 +30,7 @@
 
 .pipGrid .pip.hollow {
     background-color: unset;
-    border-style: dashed;
+    border-style: dotted;
     color: currentColor;
 }
 

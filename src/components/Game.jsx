@@ -7,10 +7,11 @@ import {
   colors as ungColors,
 } from "unique-names-generator";
 
-import { Player } from "~components/Player";
+import { Player, getUnstacked } from "~components/Player";
 import { NameBox } from "~components/NameBox";
 import { Emoji } from "~components/Emoji";
-import { GameContext } from "~contexts/gameState";
+
+import { GameContext } from "~/contexts/game";
 import { PlayersContext } from "~contexts/players";
 
 import { rollD6 } from "~util/dice";
@@ -194,7 +195,7 @@ function Game() {
       let smallest = 0;
       winners.forEach((winnerId, i) => {
         const p = players[winnerId];
-        const unstacked = p.pool.length + p.gifts.length;
+        const unstacked = getUnstacked(p);
         smallest = Math.min(smallest, unstacked);
         // console.log("winnerId=%o, i=%o, unstacked=%o, smallest=%o", winnerId, i, unstacked, smallest)
       });
@@ -266,7 +267,7 @@ function Game() {
   };
 
   return (
-    <GameContext.Provider value={gameState}>
+    <GameContext.Provider value={{ gameState, gameTurnCount }}>
       <PlayersContext.Provider value={players}>
         <>
           <div className="gameControls">

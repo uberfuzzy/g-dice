@@ -28,7 +28,12 @@ export const PipGrid = ({ value }) => {
   }
 
   // if the value is in our list of known patterns...
-  if (value >= 0 && value <= 6) {
+  if (value === 0) {
+    myPips = new Array(9).fill(null).map((_, i) => {
+      return <span key={i} className="cell pip hollow"></span>;
+    });
+    console.log(myPips);
+  } else if (value in patterns) {
     // iterate over the chars
     patterns[value].split("").forEach((element, i) => {
       // non-spacers are overwrote into pips

@@ -1,6 +1,4 @@
 import React from "react";
-// import PropTypes from 'prop-types';
-import "./PipGrid.css";
 import "./Cube.css";
 import { Emoji } from "./Emoji";
 
@@ -18,14 +16,14 @@ patterns[6] = "***--*-**";
 patterns[7] = "***--****";
 patterns[8] = "****-****";
 
-export const CubeStack = ({ number, color }) => {
+export const CubeStack = ({ number }) => {
   let myPips = new Array(9);
 
   // start with a grid of spacers
   for (let i = 0; i < 9; i += 1) {
     myPips[i] = (
       <span key={i} className="cell spacer">
-        -
+        <Emoji>🎲</Emoji>
       </span>
     );
   }
@@ -36,7 +34,7 @@ export const CubeStack = ({ number, color }) => {
     // non-spacers are overwrote into pips
     if (element !== "-") {
       myPips[i] = (
-        <span key={i} className="cell none">
+        <span key={i} className="cell pip">
           <Emoji>🎲</Emoji>
         </span>
       );
@@ -49,14 +47,18 @@ export const CubeStack = ({ number, color }) => {
     </span>
   );
 
+  const classes = ["cubeGrid"];
+  if (number >= 8) {
+    classes.push("win");
+  } else if (number === 7) {
+    classes.push("almost");
+  } else {
+    //tbd
+  }
+
   return (
-    <div
-      className={`diceBox ${number >= 8 ? "win" : ""}`}
-      style={{ backgroundColor: color || "transparent" }}
-    >
-      <div className={`pipGrid cubeGrid`} title={number}>
-        {myPips}
-      </div>
+    <div className={classes.join(" ")} title={`${number} / 8`}>
+      {myPips}
     </div>
   );
 };
