@@ -7,6 +7,8 @@ import {
   colors as ungColors,
 } from "unique-names-generator";
 
+import uuid from "react-uuid";
+
 import { Player, getUnstacked } from "~components/Player";
 import { NameBox } from "~components/NameBox";
 import { Emoji } from "~components/Emoji";
@@ -46,7 +48,7 @@ function Game() {
     const randomName = titleCase(uniqueNamesGenerator(ungConfigPlayer));
 
     let newPlayer = initPlayer({
-      id: players.length, // TODO find better way to "get next id"
+      id: uuid(),
       name: randomName,
     });
 
@@ -59,6 +61,7 @@ function Game() {
       ...player,
       left: null,
       right: null,
+      wins: 0,
     };
     return resetPlayerGameData(player);
   };
@@ -69,7 +72,7 @@ function Game() {
       cube: 0,
       pool: new Array(7).fill(0),
       gifts: [],
-      win: false,
+      winState: false,
       rolled: [],
     };
     return player;
@@ -190,7 +193,7 @@ function Game() {
     }
 
     if (winners.length > 1) {
-      console.log("gameIsWon(), tie race");
+      // console.log("gameIsWon(), tie race");
       //if multiple win at same time, "the player with the fewer unstacked dice wins"
       let smallest = 0;
       winners.forEach((winnerId, i) => {
@@ -199,15 +202,19 @@ function Game() {
         smallest = Math.min(smallest, unstacked);
         // console.log("winnerId=%o, i=%o, unstacked=%o, smallest=%o", winnerId, i, unstacked, smallest)
       });
-      console.log("gameIsWon(), smallest found=", smallest);
+      // console.log("gameIsWon(), smallest found=", smallest);
 
       winners = winners.filter((winnerId) => {
         return players[winnerId].win === smallest;
       });
-
-      setPlayers(players);
     }
     setWinState(winners);
+
+    winners.forEach((winnerId, i) => {
+      const p = players[winnerId];
+      p.wins += 1;
+    });
+    setPlayers(players);
 
     return winners.length > 0;
   };
@@ -216,7 +223,7 @@ function Game() {
     let playersWithDice = 0;
 
     players.forEach((p) => {
-      if (p.pool.length + p.gifts.length) {
+      if (getUnstacked(p)) {
         playersWithDice += 1;
       }
     });
@@ -239,6 +246,7 @@ function Game() {
     }
 
     if (gameIsOver()) {
+      console.log("game has been lost");
       setGameState(GameStates.over);
       setWinState(false);
       return;
@@ -247,6 +255,7 @@ function Game() {
 
   // keep players names, wipe their internals, reset game state
   const resetTable = () => {
+    console.log("game is re-start");
     const npd = players.map((p, pi) => {
       return resetPlayerGameData(p);
     });
@@ -314,6 +323,7 @@ function Game() {
                 style={{ display: "flex", justifyContent: "space-around" }}
               >
                 <button
+                  key={0}
                   onClick={resetTable}
                   style={{ float: "left" }}
                   title="keep but reset players"
@@ -321,6 +331,7 @@ function Game() {
                   play another round?
                 </button>
                 <button
+                  key={1}
                   onClick={resetWorld}
                   style={{ float: "right" }}
                   title="reset everything"
@@ -335,13 +346,7 @@ function Game() {
             <>
               {winState === false && (
                 <>
-                  <div
-                    className="gameOverBox"
-                    style={{
-                      backgroundColor: "pink",
-                      borderColor: "red",
-                    }}
-                  >
+                  <div key="lose" className="gameOverBox lose">
                     <Emoji>☠</Emoji> NO WINNERS, CUBES REVOLT, EVERYONE EATEN{" "}
                     <Emoji>☠</Emoji>
                   </div>
@@ -349,24 +354,20 @@ function Game() {
               )}
               {winState !== false && (
                 <>
-                  <div
-                    className="gameOverBox"
-                    style={{
-                      backgroundColor: "lime",
-                      borderColor: "green",
-                    }}
-                  >
-                    🏆 WINNER{winState?.length > 1 && <>S</>} DETECTED,{" "}
-                    {winState.map((playerId, loopId, arr) => {
-                      console.log(playerId, loopId, arr);
+                  <div key="win" className="gameOverBox win">
+                    <Emoji>👑</Emoji> WINNER{winState?.length > 1 && <>S</>}{" "}
+                    DETECTED:{" "}
+                    {winState.map((playerId, loopId) => {
                       return (
-                        <>
-                          {loopId > 0 && <>, </>}
-                          <NameBox>{players[playerId].name}</NameBox>
-                        </>
+                        <span key={loopId}>
+                          {loopId > 0 && <>| </>}
+                          <NameBox title={players[playerId].id}>
+                            {players[playerId].name}
+                          </NameBox>
+                        </span>
                       );
                     })}{" "}
-                    🏆
+                    <Emoji>👑</Emoji>
                   </div>
                 </>
               )}
@@ -385,14 +386,6 @@ function Game() {
                 return (
                   <tr key={pi}>
                     <td style={{ marginTop: "1em" }}>
-                      {/* i am #{playerData.id}
-                  {playerData?.left !== null && <>
-                    , my left neighbor is: ({playerData.left})<NameBox dir={'left'}>{players[playerData.left].name}</NameBox>
-                  </>}
-                  {playerData?.right !== null && <>
-                    , my right neighbor is: ({playerData.right})<NameBox dir={'right'}>{players[playerData.right].name}</NameBox>
-                  </>}
-                  <br /> */}
                       <Player data={playerData} />
                     </td>
                   </tr>

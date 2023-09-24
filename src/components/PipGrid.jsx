@@ -20,11 +20,7 @@ export const PipGrid = ({ value }) => {
 
   // start with a grid of spacers
   for (let i = 0; i < 9; i += 1) {
-    myPips[i] = (
-      <span key={i} className="cell spacer">
-        {/* - */}
-      </span>
-    );
+    myPips[i] = <span key={i} className="cell spacer"></span>;
   }
 
   // if the value is in our list of known patterns...
@@ -32,27 +28,18 @@ export const PipGrid = ({ value }) => {
     myPips = new Array(9).fill(null).map((_, i) => {
       return <span key={i} className="cell pip hollow"></span>;
     });
-    console.log(myPips);
   } else if (value in patterns) {
     // iterate over the chars
     patterns[value].split("").forEach((element, i) => {
       // non-spacers are overwrote into pips
       if (element !== "-") {
-        myPips[i] = (
-          <span key={i} className="cell pip">
-            {/* &bull; */}
-          </span>
-        );
+        myPips[i] = <span key={i} className="cell pip"></span>;
       }
     });
   } else {
     // for things outside of the known patterns, just
     // pip the center, punch out the middle, and put the value in it.
-    myPips[4] = (
-      <span key={4} className="cell pip hollow">
-        {value}
-      </span>
-    );
+    myPips[4] = <span key={4} className="cell pip hollow"></span>;
   }
 
   return (

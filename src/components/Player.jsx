@@ -42,14 +42,45 @@ export const Player = ({ data: pdata }) => {
 
   return (
     <>
-      <div className={"playerDev"}>
-        my name is <NameBox>{pdata.name}</NameBox>
+      <div className={"playerCard"}>
+        <>
+          my name is <NameBox title={pdata.id}>{pdata.name}</NameBox>
+          {pdata.wins > 0 && (
+            <>
+              , {pdata.wins} x <Emoji>🏆</Emoji>
+            </>
+          )}
+        </>
         <br /> <br />
-        {/* , <br /> */}
-        {/* my cube is: {data.cube}, my pool({pool.length}) is [{pool.join(", ")}] , */}
-        {/* my gifts is: {data.gifts}, */}
-        {/* US={data.pool.length + data.gifts.length} */}
-        {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
+        {gameTurnCount === 0 && (
+          <>
+            {pdata?.left !== null && (
+              <>
+                My <Emoji>◀</Emoji> neighbor is:{" "}
+                <NameBox
+                  dir={"left"}
+                  title={`${pdata.left} / ${players[pdata.left].id}`}
+                >
+                  {players[pdata.left].name}
+                </NameBox>
+                <br />
+              </>
+            )}
+            {pdata?.right !== null && (
+              <>
+                My <Emoji>▶</Emoji> neighbor is:{" "}
+                <NameBox
+                  dir={"right"}
+                  title={`${pdata.right} / ${players[pdata.right].id}`}
+                >
+                  {players[pdata.right].name}
+                </NameBox>
+                <br />
+              </>
+            )}
+            <br />
+          </>
+        )}
         {pdata?.rolled.length > 0 && (
           <div>
             <>I rolled [{pdata.rolled.join(", ")}].</>
@@ -60,8 +91,10 @@ export const Player = ({ data: pdata }) => {
             <>
               {leftGiveAway?.length > 0 && (
                 <>
-                  I gave [{leftGiveAway.join(", ")}] to
-                  <NameBox>{players[pdata.left].name}</NameBox>
+                  I gave [{leftGiveAway.join(", ")}] <Emoji>◀</Emoji> to{" "}
+                  <NameBox dir="left" title={players[pdata.left].id}>
+                    {players[pdata.left].name}
+                  </NameBox>
                 </>
               )}
             </>
@@ -76,8 +109,10 @@ export const Player = ({ data: pdata }) => {
                   ) : (
                     <>I</>
                   )}{" "}
-                  gave [{rightGiveAway.join(", ")}] to{" "}
-                  <NameBox>{players[pdata.right].name}</NameBox>
+                  gave [{rightGiveAway.join(", ")}] <Emoji>▶</Emoji> to{" "}
+                  <NameBox dir="right" title={players[pdata.right].id}>
+                    {players[pdata.right].name}
+                  </NameBox>
                 </>
               )}
             </>
@@ -86,11 +121,11 @@ export const Player = ({ data: pdata }) => {
         <div className="playerDiceRow">
           <div className="playerCube">
             <CubeStack number={pdata.cube} />
-            {pdata.win !== false && (
+            {pdata.winState !== false && (
               <>
                 <br />
                 <span className="winText">
-                  I HAVE COMPLETED MY CUBE [{pdata.win}]
+                  I HAVE COMPLETED MY CUBE [{pdata.winState}]
                 </span>
               </>
             )}
@@ -129,7 +164,7 @@ export const Player = ({ data: pdata }) => {
             )}
           </div>
         </div>
-        {gameState === GameStates.playing && (
+        {gameState === GameStates.playing && gameTurnCount > 0 && (
           <div>
             I will roll {getUnstacked(pdata)} <Emoji>🎲</Emoji> next round
           </div>

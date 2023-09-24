@@ -1,9 +1,10 @@
-.playerDev {
+.playerCard {
     border: 1px dashed lightslategray;
     box-shadow: 2px 2px 4px gray;
-    width: fit-content;
+    /* width: fit-content; */
     padding: 1em;
     margin: 0.5em;
+    background-color: whitesmoke;
 }
 
 .playerCube {
@@ -23,7 +24,7 @@
 
 .dicePoolGrid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
 }
 
 .noDiceBox {
