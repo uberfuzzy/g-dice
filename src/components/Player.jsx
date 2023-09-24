@@ -9,32 +9,32 @@ import { PlayersContext } from "~/contexts/players";
 
 import "./Player.css";
 
-export const Player = ({ data }) => {
-  const [pool, setPool] = useState(data.pool);
-  const [giftPool, setGiftPool] = useState(data.gifts);
+export const Player = ({ data: pdata }) => {
+  const [pool, setPool] = useState(pdata.pool);
+  const [giftPool, setGiftPool] = useState(pdata.gifts);
 
   let players = useContext(PlayersContext);
 
   useEffect(() => {
-    setPool(data.pool);
-  }, [data.pool]);
+    setPool(pdata.pool);
+  }, [pdata.pool]);
 
   useEffect(() => {
-    setGiftPool(data.gifts);
-  }, [data.gifts]);
+    setGiftPool(pdata.gifts);
+  }, [pdata.gifts]);
 
-  const leftGiveAway = data.rolled.filter((dv) => {
+  const leftGiveAway = pdata.rolled.filter((dv) => {
     return dv === 1;
   });
 
-  const rightGiveAway = data.rolled.filter((dv) => {
+  const rightGiveAway = pdata.rolled.filter((dv) => {
     return dv === 6;
   });
 
   return (
     <>
       <div className={"playerDev"}>
-        my name is <NameBox>{data.name}</NameBox>
+        my name is <NameBox>{pdata.name}</NameBox>
         {/* , <br /> */}
         {/* my cube is: {data.cube}, my pool({pool.length}) is [{pool.join(", ")}] , */}
         {/* my gifts is: {data.gifts}, */}
@@ -42,7 +42,7 @@ export const Player = ({ data }) => {
         {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
         <div className="playerDiceRow">
           <div className="playerCube">
-            <CubeStack number={data.cube} color="pink" />
+            <CubeStack number={pdata.cube} color="pink" />
           </div>
           <div>
             <div className="playerDicePool">
@@ -59,25 +59,25 @@ export const Player = ({ data }) => {
             </div>
           </div>
         </div>
-        {data?.rolled.length > 0 && (
+        {pdata?.rolled.length > 0 && (
           <>
-            <>I rolled [{data.rolled.join(", ")}].</>
+            <>I rolled [{pdata.rolled.join(", ")}].</>
             <>
               <>
                 <br /> Giving [{leftGiveAway.join(", ")}] to{" "}
-                <NameBox>{players[data.left].name}</NameBox>
+                <NameBox>{players[pdata.left].name}</NameBox>
               </>
               <>
                 , and [{rightGiveAway.join(", ")}] to{" "}
-                <NameBox>{players[data.right].name}</NameBox>
+                <NameBox>{players[pdata.right].name}</NameBox>
               </>
             </>
             <br />
           </>
         )}
-        {data.win !== false && (
+        {pdata.win !== false && (
           <>
-            <div className="win">I HAVE COMPLETED MY CUBE [{data.win}]</div>
+            <div className="win">I HAVE COMPLETED MY CUBE [{pdata.win}]</div>
           </>
         )}
       </div>
