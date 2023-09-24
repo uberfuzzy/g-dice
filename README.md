@@ -1,70 +1,27 @@
-# Getting Started with Create React App
+# What
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A dumb little react implentation of a game played with dice.
 
-## Available Scripts
+Its a semi-clone of a physical dice game based on building a gelatinous cube, but I'm sure I've also seen it elsewere as some sort of generic game to play with d6.
 
-In the project directory, you can run:
+I make no claim to own this game, or its concept. This is entirely a programming mechanics playground.
 
-### `npm start`
+# Why
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Wanted to play around with some React (outside of Gatsby) to help learn and strengthen some logical (mis)assumptions I had. Also was bored.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Much like playing "war" with a deck of cards, there is no skill involved, and a pure implentation of mechanics. I like using those as programming exercise, because you know what the endgoal is supposed to do.
 
-### `npm test`
+# Game Rules
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Each player starts with 6 dice (d6).
+2. Everyone rolls at the same time.
+3. As an atomic action, everyone:
+  4. give your `1`s to the player on your left
+  5. move your `3`s to your cube pile.
+  6. give your `6`s to the player on your right.
+7. If one or more player completes their cube (stack of >=8) at the same time, the player with the LEAST unstacked cubes wins.
+8. If at any point no one has any unstacked cubes, everyone is eaten, and everyone loses.
 
-### `npm run build`
+   
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
