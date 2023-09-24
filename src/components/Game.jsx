@@ -8,9 +8,10 @@ import {
 } from "unique-names-generator";
 
 import { Player } from "~components/Player";
-import { GameContext } from "~contexts/gameState";
 import { NameBox } from "~components/NameBox";
 import { Emoji } from "~components/Emoji";
+import { GameContext } from "~contexts/gameState";
+import { PlayersContext } from "~contexts/players";
 
 import { rollD6 } from "~util/dice";
 import { titleCase } from "~util/strings";
@@ -66,8 +67,9 @@ function Game() {
       ...player,
       cube: 0,
       pool: new Array(7).fill(0),
-      gifts: 0,
+      gifts: [],
       win: false,
+      rolled: [],
     };
     return player;
   };
@@ -101,20 +103,24 @@ function Game() {
       return rollD6();
     });
 
-    np = np.sort((a, b) => a - b);
+    // np = np.sort((a, b) => a - b);
 
     return np;
   };
 
   const rollAllPools = () => {
     const npd = players.map((p, pi) => {
-      if (p.gifts > 0) {
-        p.pool = [...p.pool, ...new Array(p.gifts).fill(0)];
-        p.gifts = 0;
+      //combine gifts back into pool
+      if (p.gifts.length > 0) {
+        p.pool = [...p.pool, ...p.gifts];
+        p.gifts = [];
       }
 
-      const rolled = rollPool(p.pool);
-      p.pool = [...rolled];
+      // roll all the pool dice, save record into rolled
+      p.rolled = rollPool(p.pool);
+
+      // but copy it
+      p.pool = [...p.rolled];
       return p;
     });
 
@@ -144,7 +150,10 @@ function Game() {
       const onesCount = p.pool.filter((dv) => {
         return dv === 1;
       }).length;
-      players[p.left].gifts += onesCount;
+      players[p.left].gifts = [
+        ...players[p.left].gifts,
+        ...new Array(onesCount).fill(1),
+      ];
       p.pool = p.pool.filter((dv) => {
         return dv !== 1;
       });
@@ -152,7 +161,10 @@ function Game() {
       const sixesCount = p.pool.filter((dv) => {
         return dv === 6;
       }).length;
-      players[p.right].gifts += sixesCount;
+      players[p.right].gifts = [
+        ...players[p.right].gifts,
+        ...new Array(sixesCount).fill(6),
+      ];
       p.pool = p.pool.filter((dv) => {
         return dv !== 6;
       });
@@ -168,7 +180,7 @@ function Game() {
     players.forEach((p, pi) => {
       if (p.cube >= 8) {
         winners.push(pi);
-        p.win = p.pool.length + p.gifts;
+        p.win = p.pool.length + p.gifts.length;
       }
     });
 
@@ -182,7 +194,7 @@ function Game() {
       let smallest = 0;
       winners.forEach((winnerId, i) => {
         const p = players[winnerId];
-        const unstacked = p.pool.length + p.gifts;
+        const unstacked = p.pool.length + p.gifts.length;
         smallest = Math.min(smallest, unstacked);
         // console.log("winnerId=%o, i=%o, unstacked=%o, smallest=%o", winnerId, i, unstacked, smallest)
       });
@@ -203,7 +215,7 @@ function Game() {
     let playersWithDice = 0;
 
     players.forEach((p) => {
-      if (p.pool.length + p.gifts) {
+      if (p.pool.length + p.gifts.length) {
         playersWithDice += 1;
       }
     });
@@ -255,123 +267,124 @@ function Game() {
 
   return (
     <GameContext.Provider value={gameState}>
-      <>
-        <div className="gameControls">
-          {gameState === GameStates.start && (
-            <>
-              <div className="introBox">
+      <PlayersContext.Provider value={players}>
+        <>
+          <div className="gameControls">
+            {gameState === GameStates.start && (
+              <>
+                <div className="introBox">
+                  <button
+                    id="bNewPlayer"
+                    onClick={createNewPlayer}
+                    disabled={players.length >= maxPlayers}
+                  >
+                    Add Player
+                  </button>
+                  &nbsp;&bull;&nbsp;
+                  <button
+                    id="bStartGame"
+                    onClick={startTheGame}
+                    disabled={players.length < minPlayers}
+                  >
+                    StartGame
+                  </button>
+                  <br />
+                  Add {minPlayers} to {maxPlayers} players to play
+                </div>
+              </>
+            )}
+
+            {gameState === GameStates.playing && (
+              <div className="turnControls">
                 <button
-                  id="bNewPlayer"
-                  onClick={createNewPlayer}
-                  disabled={players.length >= maxPlayers}
+                  onClick={doATurn}
+                  title="everyone rolls, feed your cube, give gifts, check for winners"
                 >
-                  Add Player
+                  DO A TURN
                 </button>
-                &nbsp;&bull;&nbsp;
-                <button
-                  id="bStartGame"
-                  onClick={startTheGame}
-                  disabled={players.length < minPlayers}
-                >
-                  StartGame
-                </button>
-                <br />
-                Add {minPlayers} to {maxPlayers} players to play
+                {/* <br /><button onClick={rollAllPools}>everyone roll</button>
+            &nbsp;<button onClick={feedYourCube}>feed your cube</button>
+          &nbsp;<button onClick={giftYourNeighbors}>give gifts</button> */}
               </div>
+            )}
+            {gameState === GameStates.over && (
+              <div
+                className="overControls"
+                style={{ display: "flex", justifyContent: "space-around" }}
+              >
+                <button
+                  onClick={resetTable}
+                  style={{ float: "left" }}
+                  title="keep but reset players"
+                >
+                  play another round?
+                </button>
+                <button
+                  onClick={resetWorld}
+                  style={{ float: "right" }}
+                  title="reset everything"
+                >
+                  reset game?
+                </button>
+              </div>
+            )}
+          </div>
+
+          {gameState === GameStates.over && (
+            <>
+              {winState === false && (
+                <>
+                  <div
+                    className="gameOverBox"
+                    style={{
+                      backgroundColor: "pink",
+                      borderColor: "red",
+                    }}
+                  >
+                    <Emoji>☠</Emoji> NO WINNERS, CUBES REVOLT, EVERYONE EATEN{" "}
+                    <Emoji>☠</Emoji>
+                  </div>
+                </>
+              )}
+              {winState !== false && (
+                <>
+                  <div
+                    className="gameOverBox"
+                    style={{
+                      backgroundColor: "lime",
+                      borderColor: "green",
+                    }}
+                  >
+                    🏆 WINNER{winState?.length > 1 && <>S</>} DETECTED,{" "}
+                    {winState.map((playerId, loopId, arr) => {
+                      console.log(playerId, loopId, arr);
+                      return (
+                        <>
+                          {loopId > 0 && <>, </>}
+                          <NameBox>{players[playerId].name}</NameBox>
+                        </>
+                      );
+                    })}{" "}
+                    🏆
+                  </div>
+                </>
+              )}
             </>
           )}
 
-          {gameState === GameStates.playing && (
-            <div className="turnControls">
-              <button
-                onClick={doATurn}
-                title="everyone rolls, feed your cube, give gifts, check for winners"
-              >
-                DO A TURN
-              </button>
-              {/* <br /><button onClick={rollAllPools}>everyone roll</button>
-            &nbsp;<button onClick={feedYourCube}>feed your cube</button>
-          &nbsp;<button onClick={giftYourNeighbors}>give gifts</button> */}
-            </div>
-          )}
-          {gameState === GameStates.over && (
-            <div
-              className="overControls"
-              style={{ display: "flex", justifyContent: "space-around" }}
-            >
-              <button
-                onClick={resetTable}
-                style={{ float: "left" }}
-                title="keep but reset players"
-              >
-                play another round?
-              </button>
-              <button
-                onClick={resetWorld}
-                style={{ float: "right" }}
-                title="reset everything"
-              >
-                reset game?
-              </button>
-            </div>
-          )}
-        </div>
-
-        {gameState === GameStates.over && (
-          <>
-            {winState === false && (
-              <>
-                <div
-                  className="gameOverBox"
-                  style={{
-                    backgroundColor: "pink",
-                    borderColor: "red",
-                  }}
-                >
-                  <Emoji>☠</Emoji> NO WINNERS, CUBES REVOLT, EVERYONE EATEN{" "}
-                  <Emoji>☠</Emoji>
-                </div>
-              </>
-            )}
-            {winState !== false && (
-              <>
-                <div
-                  className="gameOverBox"
-                  style={{
-                    backgroundColor: "lime",
-                    borderColor: "green",
-                  }}
-                >
-                  🏆 WINNER{winState?.length > 1 && <>S</>} DETECTED,{" "}
-                  {winState.map((playerId, loopId, arr) => {
-                    console.log(playerId, loopId, arr);
-                    return (
-                      <>
-                        {loopId > 0 && <>, </>}
-                        <NameBox>{players[playerId].name}</NameBox>
-                      </>
-                    );
-                  })}{" "}
-                  🏆
-                </div>
-              </>
-            )}
-          </>
-        )}
-
-        <table className="gameTable" border={0}>
-          <caption style={{ whiteSpace: "nowrap" }}>
-            {players.length} Players
-            {[GameStates.playing, GameStates.over].includes(gameState) && (
-              <>, Turn {gameTurnCount}</>
-            )}
-          </caption>
-          <tbody>
-            {players.map((playerData, pi) => {
-              return (
-                <tr key={pi}>
-                  <td style={{ marginTop: "1em" }}>
-                    {/* i am #{playerData.id}
+          <table className="playerTable" border={0}>
+            <caption style={{ whiteSpace: "nowrap" }}>
+              {players.length} Players
+              {[GameStates.playing, GameStates.over].includes(gameState) && (
+                <>, Turn {gameTurnCount}</>
+              )}
+            </caption>
+            <tbody>
+              {players.map((playerData, pi) => {
+                return (
+                  <tr key={pi}>
+                    <td style={{ marginTop: "1em" }}>
+                      {/* i am #{playerData.id}
                   {playerData?.left !== null && <>
                     , my left neighbor is: ({playerData.left})<NameBox dir={'left'}>{players[playerData.left].name}</NameBox>
                   </>}
@@ -379,14 +392,15 @@ function Game() {
                     , my right neighbor is: ({playerData.right})<NameBox dir={'right'}>{players[playerData.right].name}</NameBox>
                   </>}
                   <br /> */}
-                    <Player data={playerData} />
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </>
+                      <Player data={playerData} />
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </>
+      </PlayersContext.Provider>
     </GameContext.Provider>
   );
 }
