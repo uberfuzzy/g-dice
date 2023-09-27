@@ -1,0 +1,19 @@
+.gameOverBox {
+    border-width: 4px;
+    border-style: inset;
+    /* border colors supplied by calling box via inline style*/
+    padding: 0.5em 1em;
+    width: fit-content;
+    text-align: center;
+    margin-inline: auto;
+}
+
+.gameOverBox.win {
+    background-color: lime;
+    border-color: green;
+}
+
+.gameOverBox.lose {
+    background-color: pink;
+    border-color: red;
+}

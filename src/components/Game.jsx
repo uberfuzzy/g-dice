@@ -12,6 +12,7 @@ import { v4 as uuid } from "uuid";
 import { Player, getUnstacked } from "~components/Player";
 import { NameBox } from "~components/NameBox";
 import { Emoji } from "~components/Emoji";
+import { GameOverBox } from "~/components/GameOverBox";
 
 import { GameContext } from "~/contexts/game";
 import { PlayersContext } from "~contexts/players";
@@ -276,7 +277,7 @@ function Game() {
   };
 
   return (
-    <GameContext.Provider value={{ gameState, gameTurnCount }}>
+    <GameContext.Provider value={{ gameState, gameTurnCount, winState }}>
       <PlayersContext.Provider value={players}>
         <>
           <div className="gameControls">
@@ -344,33 +345,8 @@ function Game() {
 
           {gameState === GameStates.over && (
             <>
-              {winState === false && (
-                <>
-                  <div key="lose" className="gameOverBox lose">
-                    <Emoji>☠</Emoji> NO WINNERS, CUBES REVOLT, EVERYONE EATEN{" "}
-                    <Emoji>☠</Emoji>
-                  </div>
-                </>
-              )}
-              {winState !== false && (
-                <>
-                  <div key="win" className="gameOverBox win">
-                    <Emoji>👑</Emoji> WINNER{winState?.length > 1 && <>S</>}{" "}
-                    DETECTED:{" "}
-                    {winState.map((playerId, loopId) => {
-                      return (
-                        <span key={loopId}>
-                          {loopId > 0 && <>| </>}
-                          <NameBox title={players[playerId].id}>
-                            {players[playerId].name}
-                          </NameBox>
-                        </span>
-                      );
-                    })}{" "}
-                    <Emoji>👑</Emoji>
-                  </div>
-                </>
-              )}
+              {winState === false && <GameOverBox type="lose" />}
+              {winState !== false && <GameOverBox type="win" />}
             </>
           )}
 
