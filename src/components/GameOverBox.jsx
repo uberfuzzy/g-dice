@@ -5,6 +5,7 @@ import { NameBox } from "~components/NameBox";
 
 import { GameContext } from "~contexts/game";
 import { PlayersContext } from "~contexts/players";
+import { playerLookup } from "~util/players";
 
 export const GameOverBox = ({ type }) => {
   let contents = <></>;
@@ -16,12 +17,13 @@ export const GameOverBox = ({ type }) => {
       contents = (
         <>
           <Emoji>👑</Emoji> WINNER{winState?.length > 1 && <>S</>} DETECTED:{" "}
-          {winState.map((playerId, loopId) => {
-            const p = players[playerId];
+          {winState.map((winnerUuid, loopId) => {
+            const p = playerLookup(winnerUuid, players);
+
             return (
               <span key={loopId}>
                 {loopId > 0 && <>| </>}
-                <NameBox title={p.id}>{p.name}</NameBox>
+                <NameBox title={p.uuid}>{p.name}</NameBox>
               </span>
             );
           })}{" "}

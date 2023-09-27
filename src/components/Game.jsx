@@ -19,6 +19,7 @@ import { PlayersContext } from "~contexts/players";
 
 import { rollD6 } from "~util/dice";
 import { titleCase } from "~util/strings";
+import { playerLookup } from "~util/players";
 
 import "./Game.css";
 
@@ -49,7 +50,7 @@ function Game() {
     const randomName = titleCase(uniqueNamesGenerator(ungConfigPlayer));
 
     let newPlayer = initPlayer({
-      id: uuid(),
+      uuid: uuid(),
       name: randomName,
     });
 
@@ -89,10 +90,18 @@ function Game() {
   };
 
   const identifyNeighbors = () => {
-    let nlefts = [...players.keys()];
+    let nlefts = [
+      ...players.map((p) => {
+        return p.uuid;
+      }),
+    ];
     nlefts.unshift(nlefts.pop());
 
-    let nrights = [...players.keys()];
+    let nrights = [
+      ...players.map((p) => {
+        return p.uuid;
+      }),
+    ];
     nrights.push(nrights.shift());
 
     const npd = players.map((p, pi) => {
@@ -155,10 +164,9 @@ function Game() {
       const onesCount = p.pool.filter((dv) => {
         return dv === 1;
       }).length;
-      players[p.left].gifts = [
-        ...players[p.left].gifts,
-        ...new Array(onesCount).fill(1),
-      ];
+
+      const pleft = playerLookup(p.left, players);
+      pleft.gifts = [...pleft.gifts, ...new Array(onesCount).fill(1)];
       p.pool = p.pool.filter((dv) => {
         return dv !== 1;
       });
@@ -166,10 +174,8 @@ function Game() {
       const sixesCount = p.pool.filter((dv) => {
         return dv === 6;
       }).length;
-      players[p.right].gifts = [
-        ...players[p.right].gifts,
-        ...new Array(sixesCount).fill(6),
-      ];
+      const pright = playerLookup(p.right, players);
+      pright.gifts = [...pright.gifts, ...new Array(sixesCount).fill(6)];
       p.pool = p.pool.filter((dv) => {
         return dv !== 6;
       });
@@ -184,8 +190,8 @@ function Game() {
     let winners = [];
     players.forEach((p, pi) => {
       if (p.cube >= 8) {
-        winners.push(pi);
-        p.win = p.pool.length + p.gifts.length;
+        winners.push(p.uuid);
+        p.win = getUnstacked(p);
       }
     });
 
@@ -197,22 +203,21 @@ function Game() {
       // console.log("gameIsWon(), tie race");
       //if multiple win at same time, "the player with the fewer unstacked dice wins"
       let smallest = 0;
-      winners.forEach((winnerId, i) => {
-        const p = players[winnerId];
-        const unstacked = getUnstacked(p);
+      winners.forEach((winnerUuid, i) => {
+        const p = playerLookup(winnerUuid, players);
+        const unstacked = p.win;
         smallest = Math.min(smallest, unstacked);
-        // console.log("winnerId=%o, i=%o, unstacked=%o, smallest=%o", winnerId, i, unstacked, smallest)
       });
-      // console.log("gameIsWon(), smallest found=", smallest);
 
-      winners = winners.filter((winnerId) => {
-        return players[winnerId].win === smallest;
+      winners = winners.filter((winnerUuid) => {
+        const p = playerLookup(winnerUuid, players);
+        return p.win === smallest;
       });
     }
     setWinState(winners);
 
-    winners.forEach((winnerId, i) => {
-      const p = players[winnerId];
+    winners.forEach((winnerUuid, i) => {
+      const p = playerLookup(winnerUuid, players);
       p.wins += 1;
     });
     setPlayers(players);

@@ -8,6 +8,7 @@ import { NameBox } from "~components/NameBox";
 
 import { PlayersContext } from "~/contexts/players";
 import { GameContext } from "~/contexts/game";
+import { playerLookup } from "~util/players";
 
 import "./Player.css";
 import { Emoji } from "./Emoji";
@@ -40,11 +41,14 @@ export const Player = ({ data: pdata }) => {
     return dv === 6;
   });
 
+  const p_left = playerLookup(pdata.left, players);
+  const p_right = playerLookup(pdata.right, players);
+
   return (
     <>
       <div className={"playerCard"}>
         <>
-          my name is <NameBox title={pdata.id}>{pdata.name}</NameBox>
+          my name is <NameBox title={pdata.uuid}>{pdata.name}</NameBox>
           {pdata.wins > 0 && (
             <>
               , {pdata.wins} x <Emoji>🏆</Emoji>
@@ -57,11 +61,8 @@ export const Player = ({ data: pdata }) => {
             {pdata?.left !== null && (
               <>
                 My <Emoji>◀</Emoji> neighbor is:{" "}
-                <NameBox
-                  dir={"left"}
-                  title={`${pdata.left} / ${players[pdata.left].id}`}
-                >
-                  {players[pdata.left].name}
+                <NameBox dir={"left"} title={`${pdata.left} / ${p_left.uuid}`}>
+                  {p_left.name}
                 </NameBox>
                 <br />
               </>
@@ -71,9 +72,9 @@ export const Player = ({ data: pdata }) => {
                 My <Emoji>▶</Emoji> neighbor is:{" "}
                 <NameBox
                   dir={"right"}
-                  title={`${pdata.right} / ${players[pdata.right].id}`}
+                  title={`${pdata.right} / ${p_right.uuid}`}
                 >
-                  {players[pdata.right].name}
+                  {p_right.name}
                 </NameBox>
                 <br />
               </>
@@ -92,8 +93,8 @@ export const Player = ({ data: pdata }) => {
               {leftGiveAway?.length > 0 && (
                 <>
                   I gave [{leftGiveAway.join(", ")}] <Emoji>◀</Emoji> to{" "}
-                  <NameBox dir="left" title={players[pdata.left].id}>
-                    {players[pdata.left].name}
+                  <NameBox dir="left" title={p_left.uuid}>
+                    {p_left.name}
                   </NameBox>
                 </>
               )}
@@ -110,8 +111,8 @@ export const Player = ({ data: pdata }) => {
                     <>I</>
                   )}{" "}
                   gave [{rightGiveAway.join(", ")}] <Emoji>▶</Emoji> to{" "}
-                  <NameBox dir="right" title={players[pdata.right].id}>
-                    {players[pdata.right].name}
+                  <NameBox dir="right" title={p_right.uuid}>
+                    {p_right.name}
                   </NameBox>
                 </>
               )}
