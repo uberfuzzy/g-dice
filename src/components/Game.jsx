@@ -7,7 +7,7 @@ import {
   colors as ungColors,
 } from "unique-names-generator";
 
-import uuid from "react-uuid";
+import { v4 as uuid } from "uuid";
 
 import { Player, getUnstacked } from "~components/Player";
 import { NameBox } from "~components/NameBox";

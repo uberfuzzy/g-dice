@@ -3,15 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-uuid": "^2.0.0",
-    "unique-names-generator": "^4.7.1"
+    "unique-names-generator": "^4.7.1",
+    "uuid": "^9.0.1"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test",
+    "start": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "test": "",
     "format": "prettier --write 'src/**/*.{js,jsx}'"
   },
   "eslintConfig": {
@@ -33,9 +35,8 @@
     ]
   },
   "devDependencies": {
+    "@vitejs/plugin-react": "^4.1.0",
     "prettier": "^3.0.3",
-    "@craco/craco": "^7.1.0",
-    "react-scripts": "^5.0.1",
-    "nth-check": ">=2.0.1"
+    "vite": "^4.4.9"
   }
 }
