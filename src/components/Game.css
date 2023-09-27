@@ -2,6 +2,17 @@
     margin-bottom: 1em;
 }
 
-.playerTable {
+.gameStats {
+    white-space: nowrap;
+    width: fit-content;
     margin-inline: auto;
+    padding-inline: 0.5em;
+}
+
+.playerTable {
+    /* width: fit-content; */
+    padding: 1em;
+    /* margin-inline: 1em; */
+    margin-inline: auto;
+    border-width: 2px 0 0 0;
 }

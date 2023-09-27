@@ -1,10 +1,12 @@
 .playerCard {
-    border: 1px dashed lightslategray;
+    border: 2px outset lightslategray;
     box-shadow: 2px 2px 4px gray;
-    /* width: fit-content; */
     padding: 1em;
     margin: 0.5em;
     background-color: whitesmoke;
+    width: fit-content;
+    display: inline-block;
+    vertical-align: top;
 }
 
 .playerCube {

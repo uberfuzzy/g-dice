@@ -350,25 +350,18 @@ function Game() {
             </>
           )}
 
-          <table className="playerTable" border={0}>
-            <caption style={{ whiteSpace: "nowrap" }}>
-              {players.length} Players
-              {[GameStates.playing, GameStates.over].includes(gameState) && (
-                <>, Turn {gameTurnCount}</>
-              )}
-            </caption>
-            <tbody>
-              {players.map((playerData, pi) => {
-                return (
-                  <tr key={pi}>
-                    <td style={{ marginTop: "1em" }}>
-                      <Player data={playerData} />
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          <div className="gameStats">
+            {players.length} Players
+            {[GameStates.playing, GameStates.over].includes(gameState) && (
+              <>, Turn {gameTurnCount}</>
+            )}
+          </div>
+
+          <div className="playerTable">
+            {players.map((playerData, pi) => {
+              return <Player key={pi} data={playerData} />;
+            })}
+          </div>
         </>
       </PlayersContext.Provider>
     </GameContext.Provider>
