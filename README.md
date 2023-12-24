@@ -6,6 +6,9 @@ Its a semi-clone of a physical dice game based on building a gelatinous cube, bu
 
 I make no claim to own this game, or its concept. This is entirely a programming mechanics playground.
 
+* Deployed https://uberfuzzy.github.io/g-dice/
+* HEAD https://magenta-taiyaki-f74a33.netlify.app/
+
 # Why
 
 Wanted to play around with some React (outside of Gatsby) to help learn and strengthen some logical (mis)assumptions I had. Also was bored.
