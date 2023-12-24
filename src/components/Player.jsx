@@ -10,7 +10,7 @@ import { PlayersContext } from "~/contexts/players";
 import { GameContext } from "~/contexts/game";
 import { playerLookup } from "~util/players";
 
-import "./Player.css";
+import "./Player.scss";
 import { Emoji } from "./Emoji";
 import { GameStates } from "./Game";
 
@@ -60,7 +60,7 @@ export const Player = ({ data: pdata }) => {
           <>
             {pdata?.left !== null && (
               <>
-                My <Emoji>◀</Emoji> neighbor is:{" "}
+                My <Emoji style={{ filter: "hue-rotate(135deg)" }}>◀</Emoji> neighbor is:{" "}
                 <NameBox dir={"left"} title={`${pdata.left} / ${p_left.uuid}`}>
                   {p_left.name}
                 </NameBox>
@@ -70,10 +70,7 @@ export const Player = ({ data: pdata }) => {
             {pdata?.right !== null && (
               <>
                 My <Emoji>▶</Emoji> neighbor is:{" "}
-                <NameBox
-                  dir={"right"}
-                  title={`${pdata.right} / ${p_right.uuid}`}
-                >
+                <NameBox dir={"right"} title={`${pdata.right} / ${p_right.uuid}`}>
                   {p_right.name}
                 </NameBox>
                 <br />
@@ -92,7 +89,7 @@ export const Player = ({ data: pdata }) => {
             <>
               {leftGiveAway?.length > 0 && (
                 <>
-                  I gave [{leftGiveAway.join(", ")}] <Emoji>◀</Emoji> to{" "}
+                  I gave [{leftGiveAway.join(", ")}] <Emoji style={{ filter: "hue-rotate(135deg)" }}>◀</Emoji> to{" "}
                   <NameBox dir="left" title={p_left.uuid}>
                     {p_left.name}
                   </NameBox>
@@ -125,42 +122,28 @@ export const Player = ({ data: pdata }) => {
             {pdata.winState !== false && (
               <>
                 <br />
-                <span className="winText">
-                  I HAVE COMPLETED MY CUBE [{pdata.winState}]
-                </span>
+                <span className="winText">I HAVE COMPLETED MY CUBE [{pdata.winState}]</span>
               </>
             )}
           </div>
           <div>
-            <div
-              className="playerDicePool"
-              id="playerDicePool"
-              data-number={pool.length || 0}
-            >
+            <div className="dicePool playerDicePool" data-number={pool.length || 0}>
               <div className="dicePoolGrid">
                 {pool.map((dv, i) => {
                   return <Dice key={i} number={dv} />;
                 })}
               </div>
-              {(!pool || pool?.length <= 0) && (
-                <div className="noDiceBox">-no dice-</div>
-              )}
+              {(!pool || pool?.length <= 0) && <div className="noDiceBox">-no dice-</div>}
             </div>
 
             {gameTurnCount > 0 && (
-              <div
-                className="playerDicePool"
-                id="playerGiftPool"
-                data-number={giftPool.length || 0}
-              >
+              <div className="dicePool playerGiftPool" data-number={giftPool.length || 0}>
                 <div className="dicePoolGrid">
                   {giftPool.map((dv, i) => {
                     return <Dice key={i} number={dv} />;
                   })}
                 </div>
-                {(!giftPool || giftPool?.length <= 0) && (
-                  <div className="noDiceBox">-no gifted dice-</div>
-                )}
+                {(!giftPool || giftPool?.length <= 0) && <div className="noDiceBox">-no gifted dice-</div>}
               </div>
             )}
           </div>

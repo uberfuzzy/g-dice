@@ -12,6 +12,7 @@
   "scripts": {
     "start": "vite",
     "build": "vite build",
+    "build_pages": "vite build  --base=/g-dice/",
     "serve": "vite preview",
     "test": "",
     "format": "prettier --write 'src/**/*.{js,jsx}'"
@@ -37,6 +38,7 @@
   "devDependencies": {
     "@vitejs/plugin-react": "^4.1.0",
     "prettier": "^3.0.3",
+    "sass": "^1.69.5",
     "vite": "^4.4.9"
   }
 }

@@ -1,0 +1,32 @@
+.playerCard {
+  border: 2px outset lightslategray;
+  box-shadow: 2px 2px 4px gray;
+  padding: 1em;
+  margin: 0.5em;
+  background-color: whitesmoke;
+  // width: fit-content;
+  display: inline-block;
+  vertical-align: top;
+
+  .playerDiceRow {
+    display: flex;
+    column-gap: 1em;
+
+    .dicePool {
+      border: 2px outset gray;
+      min-width: 1em;
+      min-height: 1em;
+      .dicePoolGrid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+      }
+      .noDiceBox {
+        opacity: 50%;
+        padding-inline: 1em;
+      }
+    }
+    .playerCube {
+      width: min-content;
+    }
+  }
+}

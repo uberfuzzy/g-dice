@@ -1,0 +1,40 @@
+.pipGrid {
+  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+  display: inline-grid;
+  width: fit-content;
+  padding: 2px;
+  gap: 2px;
+
+  .cell {
+    line-height: 1;
+    padding: 2px;
+    display: inline-block;
+    --wh: 0.25em;
+    width: var(--wh);
+    height: var(--wh);
+    margin: 1px;
+    border-radius: 50%;
+    border-width: 2px;
+    border-style: solid;
+
+    &.pip {
+      display: inline-block;
+      background-color: black;
+      border-style: solid;
+      border-color: black;
+      color: transparent;
+      user-select: none;
+      &.hollow {
+        background-color: unset;
+        border-style: dotted;
+        color: currentColor;
+      }
+    }
+  }
+
+  .spacer {
+    visibility: hidden;
+    border-style: solid;
+    border-color: transparent;
+  }
+}

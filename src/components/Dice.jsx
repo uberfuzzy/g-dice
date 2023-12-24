@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { PipGrid } from "~components/PipGrid";
-import "./Dice.css";
+import "./Dice.scss";
 
 export const Dice = ({ number }) => {
   const bgClass = (() => {

@@ -1,5 +1,5 @@
 import { Emoji } from "~components/Emoji";
-import "./GameOverBox.css";
+import "./GameOverBox.scss";
 import { useContext } from "react";
 import { NameBox } from "~components/NameBox";
 

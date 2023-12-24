@@ -21,7 +21,7 @@ import { rollD6 } from "~util/dice";
 import { titleCase } from "~util/strings";
 import { playerLookup } from "~util/players";
 
-import "./Game.css";
+import "./Game.scss";
 
 const ungConfigPlayer = {
   dictionaries: [ungColors, ungNames],

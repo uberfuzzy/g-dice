@@ -1,16 +1,18 @@
-import "./NameBox.css";
+import "./NameBox.scss";
 
 export const NameBox = ({ dir, children, title = null }) => {
-  let s = {};
+  let cn = [];
+  cn.push("nameBox greyTheme");
+
   if (dir === "left") {
-    s.backgroundColor = "var(--colorLeft)";
-    s.color = "var(--textLeft)";
+    cn.push("leftTheme");
   }
   if (dir === "right") {
-    s.backgroundColor = "var(--colorRight)";
+    cn.push("rightTheme");
   }
+
   return (
-    <span className="nameBox" style={s} title={title}>
+    <span className={cn.join(" ")} title={title}>
       {children}
     </span>
   );

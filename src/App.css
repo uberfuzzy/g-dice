@@ -36,3 +36,30 @@
     transform: rotate(360deg);
   }
 }
+
+:root {
+  --colorCube: rgb(0, 127, 0);
+  --colorWin: lime;
+  --colorWarn: yellow;
+
+  --colorLeft: red;
+  --textLeft: white;
+
+  --colorRight: aqua;
+  --textRight: black;
+}
+
+.greyTheme {
+  --f_color: black;
+  --b_color: rgba(0, 0, 0, 0.05);
+}
+
+.leftTheme {
+  --f_color: var(--textLeft);
+  --b_color: var(--colorLeft);
+}
+
+.rightTheme {
+  --f_color: var(--textRight);
+  --b_color: var(--colorRight);
+}

@@ -1,3 +1,3 @@
-export const Emoji = ({ children }) => {
-  return <>{children}&#xfe0f;</>;
+export const Emoji = ({ children, style }) => {
+  return <span style={style}>{children}&#xfe0f;</span>;
 };

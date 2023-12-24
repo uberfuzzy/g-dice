@@ -1,0 +1,48 @@
+.cubeGrid {
+  border: 2px solid rebeccapurple;
+  border-radius: 1em;
+  width: fit-content;
+  padding: 2px;
+  box-shadow: 2px 2px 4px 0px gray;
+  margin: 2px 4px 4px 2px;
+
+  background-color: #eee;
+  color: black;
+
+  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+  display: inline-grid;
+  width: fit-content;
+  --spacing: 4px;
+  padding: var(--spacing);
+  gap: var(--spacing);
+
+  &.win {
+    background-color: var(--colorWin) !important;
+  }
+
+  &.almost {
+    background-color: var(--colorWarn) !important;
+  }
+
+  .cell {
+    line-height: 1;
+    padding: 2px;
+    display: inline-block;
+    --wh: 1em;
+    width: var(--wh);
+    height: var(--wh);
+    margin: 1px;
+    text-align: center;
+    user-select: none;
+  }
+
+  .pip.hollow {
+    background-color: unset;
+    border-style: dashed;
+    color: currentColor;
+  }
+
+  .spacer {
+    filter: opacity(25%);
+  }
+}

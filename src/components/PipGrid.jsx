@@ -1,6 +1,6 @@
 import React from "react";
 
-import "./PipGrid.css";
+import "./PipGrid.scss";
 
 const patterns = {};
 
