@@ -1,5 +1,5 @@
 import { Emoji } from "~components/Emoji";
-import "./GameOverBox.scss";
+import "./GameOverBox.css";
 import { useContext } from "react";
 import { NameBox } from "~components/NameBox";
 
@@ -34,8 +34,7 @@ export const GameOverBox = ({ type }) => {
     case "lose":
       contents = (
         <>
-          <Emoji>☠</Emoji> NO WINNERS, CUBES REVOLT, EVERYONE EATEN{" "}
-          <Emoji>☠</Emoji>
+          <Emoji>☠</Emoji> NO WINNERS, CUBES REVOLT, EVERYONE EATEN <Emoji>☠</Emoji>
         </>
       );
       break;

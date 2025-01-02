@@ -1,4 +1,4 @@
-import "./NameBox.scss";
+import "./NameBox.css";
 
 export const NameBox = ({ dir, children, title = null }) => {
   let cn = [];

@@ -35,14 +35,4 @@
     text-align: center;
     user-select: none;
   }
-
-  .pip.hollow {
-    background-color: unset;
-    border-style: dashed;
-    color: currentColor;
-  }
-
-  .spacer {
-    filter: opacity(25%);
-  }
 }

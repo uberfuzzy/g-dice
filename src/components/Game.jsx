@@ -1,11 +1,7 @@
 import React from "react";
 import { useState } from "react";
 
-import {
-  uniqueNamesGenerator,
-  names as ungNames,
-  colors as ungColors,
-} from "unique-names-generator";
+import { uniqueNamesGenerator, names as ungNames, colors as ungColors } from "unique-names-generator";
 
 import { v4 as uuid } from "uuid";
 
@@ -21,7 +17,7 @@ import { rollD6 } from "~util/dice";
 import { titleCase } from "~util/strings";
 import { playerLookup } from "~util/players";
 
-import "./Game.scss";
+import "./Game.css";
 
 const ungConfigPlayer = {
   dictionaries: [ungColors, ungNames],
@@ -289,19 +285,11 @@ function Game() {
             {gameState === GameStates.start && (
               <>
                 <div className="introBox">
-                  <button
-                    id="bNewPlayer"
-                    onClick={createNewPlayer}
-                    disabled={players.length >= maxPlayers}
-                  >
+                  <button id="bNewPlayer" onClick={createNewPlayer} disabled={players.length >= maxPlayers}>
                     Add Player
                   </button>
                   &nbsp;&bull;&nbsp;
-                  <button
-                    id="bStartGame"
-                    onClick={startTheGame}
-                    disabled={players.length < minPlayers}
-                  >
+                  <button id="bStartGame" onClick={startTheGame} disabled={players.length < minPlayers}>
                     StartGame
                   </button>
                   <br />
@@ -312,10 +300,7 @@ function Game() {
 
             {gameState === GameStates.playing && (
               <div className="turnControls">
-                <button
-                  onClick={doATurn}
-                  title="everyone rolls, feed your cube, give gifts, check for winners"
-                >
+                <button onClick={doATurn} title="everyone rolls, feed your cube, give gifts, check for winners">
                   DO A TURN
                 </button>
                 {/* <br /><button onClick={rollAllPools}>everyone roll</button>
@@ -324,24 +309,11 @@ function Game() {
               </div>
             )}
             {gameState === GameStates.over && (
-              <div
-                className="overControls"
-                style={{ display: "flex", justifyContent: "space-around" }}
-              >
-                <button
-                  key={0}
-                  onClick={resetTable}
-                  style={{ float: "left" }}
-                  title="keep but reset players"
-                >
+              <div className="overControls" style={{ display: "flex", justifyContent: "space-around" }}>
+                <button key={0} onClick={resetTable} style={{ float: "left" }} title="keep but reset players">
                   play another round?
                 </button>
-                <button
-                  key={1}
-                  onClick={resetWorld}
-                  style={{ float: "right" }}
-                  title="reset everything"
-                >
+                <button key={1} onClick={resetWorld} style={{ float: "right" }} title="reset everything">
                   reset game?
                 </button>
               </div>
@@ -357,9 +329,7 @@ function Game() {
 
           <div className="gameStats">
             {players.length} Players
-            {[GameStates.playing, GameStates.over].includes(gameState) && (
-              <>, Turn {gameTurnCount}</>
-            )}
+            {[GameStates.playing, GameStates.over].includes(gameState) && <>, Turn {gameTurnCount}</>}
           </div>
 
           <div className="playerTable">

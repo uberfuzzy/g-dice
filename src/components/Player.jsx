@@ -10,7 +10,7 @@ import { PlayersContext } from "~/contexts/players";
 import { GameContext } from "~/contexts/game";
 import { playerLookup } from "~util/players";
 
-import "./Player.scss";
+import "./Player.css";
 import { Emoji } from "./Emoji";
 import { GameStates } from "./Game";
 

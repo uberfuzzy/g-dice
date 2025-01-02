@@ -1,5 +1,5 @@
 import React from "react";
-import "./Cube.scss";
+import "./Cube.css";
 import { Emoji } from "./Emoji";
 
 const patterns = {};
