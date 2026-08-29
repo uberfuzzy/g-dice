@@ -23,7 +23,7 @@ export const CubeStack = ({ number }) => {
   for (let i = 0; i < 9; i += 1) {
     myPips[i] = (
       <span key={i} className="cell spacer">
-        <Emoji>🎲</Emoji>
+        <Emoji style={{ 'filter': 'opacity(0.1)' }}>🎲</Emoji>
       </span>
     );
   }

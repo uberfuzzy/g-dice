@@ -41,6 +41,10 @@ export const Player = ({ data: pdata }) => {
     return dv === 6;
   });
 
+  const toTheCube = pdata.rolled.filter((dv) => {
+    return dv === 3;
+  });
+
   const p_left = playerLookup(pdata.left, players);
   const p_right = playerLookup(pdata.right, players);
 
@@ -60,7 +64,7 @@ export const Player = ({ data: pdata }) => {
           <>
             {pdata?.left !== null && (
               <>
-                My <Emoji style={{ filter: "hue-rotate(135deg)" }}>◀</Emoji> neighbor is:{" "}
+                My <Emoji cssclass={"leftNeighborTint"}>◀</Emoji> neighbor is:{" "}
                 <NameBox dir={"left"} title={`${pdata.left} / ${p_left.uuid}`}>
                   {p_left.name}
                 </NameBox>
@@ -69,7 +73,7 @@ export const Player = ({ data: pdata }) => {
             )}
             {pdata?.right !== null && (
               <>
-                My <Emoji>▶</Emoji> neighbor is:{" "}
+                My <Emoji cssclass={"rightNeighborTint"}>▶</Emoji> neighbor is:{" "}
                 <NameBox dir={"right"} title={`${pdata.right} / ${p_right.uuid}`}>
                   {p_right.name}
                 </NameBox>
@@ -79,42 +83,56 @@ export const Player = ({ data: pdata }) => {
             <br />
           </>
         )}
-        {pdata?.rolled.length > 0 && (
-          <div>
-            <>I rolled [{pdata.rolled.join(", ")}].</>
-          </div>
+        {pdata?.rolled.length == 0 && gameTurnCount > 0 && (
+          <>
+            <div>
+              <>I had nothing to roll.</>
+            </div>
+          </>
         )}
         {pdata?.rolled.length > 0 && (
-          <div>
-            <>
-              {leftGiveAway?.length > 0 && (
-                <>
-                  I gave [{leftGiveAway.join(", ")}] <Emoji style={{ filter: "hue-rotate(135deg)" }}>◀</Emoji> to{" "}
-                  <NameBox dir="left" title={p_left.uuid}>
-                    {p_left.name}
-                  </NameBox>
-                </>
-              )}
-            </>
-            <>
-              {rightGiveAway?.length > 0 && (
-                <>
-                  {leftGiveAway?.length > 0 ? (
-                    <>
-                      ,<br />
-                      and
-                    </>
-                  ) : (
-                    <>I</>
-                  )}{" "}
-                  gave [{rightGiveAway.join(", ")}] <Emoji>▶</Emoji> to{" "}
-                  <NameBox dir="right" title={p_right.uuid}>
-                    {p_right.name}
-                  </NameBox>
-                </>
-              )}
-            </>
-          </div>
+          <>
+            <div>
+              <>I rolled {pdata.rolled.length} 🎲 [{pdata.rolled.join(", ")}].</>
+            </div>
+            {
+              toTheCube?.length > 0 && (
+                <div>
+                  <>Added [{toTheCube.join(", ")}] to cube.</>
+                </div>
+              )
+            }
+            <div>
+              <>
+                {leftGiveAway?.length > 0 && (
+                  <>
+                    I gave [{leftGiveAway.join(", ")}] <Emoji cssclass={"leftNeighborTint"}>◀</Emoji> to{" "}
+                    <NameBox dir="left" title={p_left.uuid}>
+                      {p_left.name}
+                    </NameBox>
+                  </>
+                )}
+              </>
+              <>
+                {rightGiveAway?.length > 0 && (
+                  <>
+                    {leftGiveAway?.length > 0 ? (
+                      <>
+                        ,<br />
+                        and
+                      </>
+                    ) : (
+                      <>I</>
+                    )}{" "}
+                    gave [{rightGiveAway.join(", ")}] <Emoji cssclass={"rightNeighborTint"}>▶</Emoji> to{" "}
+                    <NameBox dir="right" title={p_right.uuid}>
+                      {p_right.name}
+                    </NameBox>
+                  </>
+                )}
+              </>
+            </div>
+          </>
         )}
         <div className="playerDiceRow">
           <div className="playerCube">

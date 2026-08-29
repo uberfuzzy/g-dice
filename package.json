@@ -28,16 +28,15 @@
       "last 1 safari version"
     ]
   },
-  "dependencies": {},
   "devDependencies": {
+    "@vitejs/plugin-react": "^6.1.1",
+    "prettier": "^3.9.6",
     "prop-types": "^15.8.1",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
     "unique-names-generator": "^4.7.1",
-    "uuid": "^13.0.0",
-    "@vitejs/plugin-react": "^5.1.4",
-    "prettier": "^3.8.1",
-    "vite": "^7.3.1"
+    "uuid": "^14.0.2",
+    "vite": "^8.2.2"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "^4.29.1"
