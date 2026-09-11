@@ -17,7 +17,7 @@ Much like playing "war" with a deck of cards, there is no skill involved, and a 
 
 # Game Rules
 
-1. Each player starts with 6 dice (d6).
+1. Each player starts with 7 dice (d6).
 2. Everyone rolls at the same time.
 3. As an atomic action, everyone:
   4. give your `1`s to the player on your left
