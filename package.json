@@ -29,14 +29,14 @@
     ]
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^6.1.1",
+    "@vitejs/plugin-react": "^6.2.1",
     "prettier": "^3.9.6",
     "prop-types": "^15.8.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "unique-names-generator": "^4.7.1",
     "uuid": "^14.0.2",
-    "vite": "^8.2.2"
+    "vite": "^8.3.5"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "^4.29.1"
